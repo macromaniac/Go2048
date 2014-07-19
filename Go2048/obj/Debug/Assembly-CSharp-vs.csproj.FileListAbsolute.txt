@@ -1,0 +1,11 @@
+C:\git\Go2048\Go2048\Temp\bin\Debug\Assembly-CSharp.dll
+C:\git\Go2048\Go2048\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\git\Go2048\Go2048\Temp\bin\Debug\UnityEditor.dll
+C:\git\Go2048\Go2048\Temp\bin\Debug\UnityEngine.dll
+C:\git\Go2048\Go2048\Temp\bin\Debug\Mono.Cecil.dll
+C:\git\Go2048\Go2048\Temp\bin\Debug\nunit.framework.dll
+C:\git\Go2048\Go2048\Temp\bin\Debug\Unity.DataContract.dll
+C:\git\Go2048\Go2048\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\git\Go2048\Go2048\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
+C:\git\Go2048\Go2048\obj\Debug\Assembly-CSharp.dll
+C:\git\Go2048\Go2048\obj\Debug\Assembly-CSharp.pdb
