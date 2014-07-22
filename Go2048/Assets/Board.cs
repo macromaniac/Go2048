@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Board {
 	private List<List<Tile>> board;
 	public List<List<Tile>> GetBoard() { return board; }
+
 	public Board(string rawBoard) {
-		string[] mapLines = rawBoard.Split('\n');
+		loadFromString(rawBoard);
+	}
+	public void loadFromBoard(Board board){
+		this.board = board.GetBoard();
+	}
+
+	public void loadFromString(string loadFrom){
+		string[] mapLines = loadFrom.Split('\n');
 		board = new List<List<Tile>>();
 
 		for (int y = 0; y < mapLines.Length; ++y) {
@@ -82,7 +91,7 @@ public class Board {
 		SetTile(tileToMoveTo.pos, new Tile(tileToMoveTo.pos, originalTile.GetTileType()));
 		SetTile(originalTile.pos, new Tile(originalTile.pos, TileType.Empty));
 	}
-	public string getStateAsString() {
+	public string getStateAsPrettyString() {
 		string stateAsString = "";
 		for (int y = 0; y < board.Count; ++y) {
 			for (int x = 0; x < board[y].Count; ++x) {
@@ -90,11 +99,20 @@ public class Board {
 				if (toAdd == "x")
 					toAdd = " ";
 				stateAsString += toAdd + "\t";
-				//line += GetTile(x,board.Count - y - 1).pos.x.ToString()
-				//+ "." + (board.Count - y - 1).ToString() + "\t";
-
 			}
 			stateAsString += "\n";
+		}
+		return stateAsString;
+	}
+	public string getStateAsString() {
+		string stateAsString = "";
+		for (int y = 0; y < board.Count; ++y) {
+			for (int x = 0; x < board[y].Count; ++x) {
+				string toAdd = GetTile(x, board.Count - y - 1).GetChar();
+				stateAsString += toAdd;
+			}
+			if (y != board.Count - 1)
+				stateAsString += "\n";
 		}
 		return stateAsString;
 	}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+[Serializable]
 public class Tile {
 	public Point2D pos;
 	TileType tileType;

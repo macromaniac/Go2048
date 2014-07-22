@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+
 using UnityEngine;
 
 public enum Direction { Up, Down, Left, Right, None };
 public enum TileType { White, WhiteKing, Black, BlackKing, Empty, Wall };
 public enum PlayerColor { White, Black, None };
 
+[Serializable]
 public class Point2D {
 	public int x, y;
 	public Point2D(int x, int y) {
@@ -63,7 +67,6 @@ public static class Conversions {
 			return TileType.Black;
 		if (input == '.')
 			return TileType.Empty;
-		int a = 0;
 		return TileType.Wall;
 	}
 	public static char ToChar(this TileType tileType) {
@@ -89,6 +92,15 @@ public static class Conversions {
 
 }
 public static class Util {
+	public static T DeepClone<T>(T obj) {
+		using (var ms = new MemoryStream()) {
+			var formatter = new BinaryFormatter();
+			formatter.Serialize(ms, obj);
+			ms.Position = 0;
+
+			return (T)formatter.Deserialize(ms);
+		}
+	}
 	public static bool isMovableType(this TileType tileType) {
 		if (tileType.ToPlayerColor() != PlayerColor.None)
 			return true;

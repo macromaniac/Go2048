@@ -49,7 +49,9 @@
      <Compile Include="Assets\ActivePlayerText.cs" />
      <Compile Include="Assets\Board.cs" />
      <Compile Include="Assets\BoardExploder.cs" />
+     <Compile Include="Assets\BoardLoader.cs" />
      <Compile Include="Assets\BoardMover.cs" />
+     <Compile Include="Assets\BoardSpawner.cs" />
      <Compile Include="Assets\Game.cs" />
      <Compile Include="Assets\InputMan.cs" />
      <Compile Include="Assets\PersistantData.cs" />

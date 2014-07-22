@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class InputMan : MonoBehaviour {
 	public TextMesh WorldText;
 	Game game;
+	public bool gameOver = false;
+	public PlayState gameOverState = PlayState.Continue;
 
 	void Start() {
 		game = new Game(Util.startingMap);
@@ -18,13 +20,24 @@ public class InputMan : MonoBehaviour {
 	void Update() {
 		Direction directionFromInput = GetDirectionFromInput();
 		if (directionFromInput != Direction.None) {
-			AcceptInput(directionFromInput);
+			List<Direction> avaiableMoves = game.findAvailableMoves(currentPlayer);
+			if (avaiableMoves.Contains(directionFromInput))
+				AcceptInput(directionFromInput);
 		}
 	}
 
 	private void AcceptInput(Direction direction) {
-		game.SendCommand(currentPlayer, direction);
-		switchPlayer();
+		if (gameOver == true)
+			return;
+		PlayState playState = game.SendCommand(currentPlayer, direction);
+		if (playState == PlayState.Win || playState == PlayState.Draw || playState == PlayState.Loss) {
+			gameOver = true;
+			gameOverState = playState;
+
+		}
+		else {
+			switchPlayer();
+		}
 		WorldText.text = game.getStateAsString();
 	}
 

@@ -10,7 +10,12 @@ public class ActivePlayerText : MonoBehaviour {
 	}
 
 	void Update() {
-		string activePlayerText = ((inputMan.CurrentPlayer == 0) ? "White's " : "Blacks's ") + "Turn! ";
+		string activePlayer = (inputMan.CurrentPlayer == 0) ? "White" : "Black";
+		if (inputMan.gameOver) {
+			textMesh.text = activePlayer + inputMan.gameOverState.ToString();
+			return;
+		}
+		string activePlayerText = activePlayer + "'s Turn! ";
 		textMesh.text = activePlayerText;
 	}
 

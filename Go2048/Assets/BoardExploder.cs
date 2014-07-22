@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WinState { Win, Loss, Draw, Continue }
+public enum PlayState { Win, Loss, Draw, Continue, Impossible }
 public class BoardExploder {
 	private Board board;
 	private List<List<bool>> checkedBoardTiles;
@@ -63,14 +63,10 @@ public class BoardExploder {
 			return;
 		}
 
-		//get the group of tiles that belong to it, and while we're getting that group, 
-		//see if any of the tiles are adjacent to this group are empty
 		List<Tile> totalGroup = new List<Tile>();
 		List<Tile> uncheckedTilesToJudge = new List<Tile>();
+
 		bool oneIsTouchingFreeSpace = false;
-		//Add tiles to unchecked tiles to judge, then consider them checked and pop them off the list
-		//after adding all viable neighbors, do the same. if any are touching a free space set that bool to true
-		//then afterwards do not destroy them unless none are touching a free space
 		uncheckedTilesToJudge.Add(board.GetTile(point));
 		setTile(point, true);
 		while (uncheckedTilesToJudge.Count > 0) {
@@ -79,32 +75,45 @@ public class BoardExploder {
 			addAdjacentTilesToList(ref oneIsTouchingFreeSpace, ref uncheckedTilesToJudge,
 				pos, color);
 
-			//Add to total group
 			uncheckedTilesToJudge.Remove(toCheck);
 			totalGroup.Add(toCheck);
 			setTile(toCheck.pos, true);
 		}
 
+		//If the group of tiles isn't touching an empty tile it's trapped and it needs to go boom
 		if (oneIsTouchingFreeSpace == false) {
-			//string fullString = "";
-			//foreach (Tile tile in totalGroup)
-			//	fullString += tile.pos.ToString() + " " + tile.GetChar() + " ";
-			//Debug.Log(fullString);
-
 			foreach (Tile tile in totalGroup) {
+				if (tile.GetTileType() == TileType.BlackKing)
+					blackKingKilled = true;
+				if (tile.GetTileType() == TileType.WhiteKing)
+					whiteKingKilled = true;
 				board.explodeTile(tile);
 			}
 		}
 	}
-	public WinState ExplodeTrappedGroups(PlayerColor playerWhoMovedTheBoard) {
+	bool whiteKingKilled = false;
+	bool blackKingKilled = false;
+	public PlayState ExplodeTrappedGroups(PlayerColor playerWhoMovedTheBoard) {
+		whiteKingKilled = false;
+		blackKingKilled = false;
 		clearCheckedBoardTiles();
 		//A trapped group is group of blocks of a particular color that are not connected to an empty square
 		for (int x = 0; x < board.NumVerticalLines; ++x) {
 			for (int y = 0; y < board.NumHorizontalLines; ++y)
 				checkBoardTile(new Point2D(x, y));
-
 		}
 
-		return WinState.Continue;
+		if (whiteKingKilled && blackKingKilled)
+			return PlayState.Draw;
+
+		if (whiteKingKilled && playerWhoMovedTheBoard == PlayerColor.Black ||
+				blackKingKilled && playerWhoMovedTheBoard == PlayerColor.White)
+			return PlayState.Win;
+
+		if (whiteKingKilled && playerWhoMovedTheBoard == PlayerColor.White ||
+				blackKingKilled && playerWhoMovedTheBoard == PlayerColor.Black)
+			return PlayState.Loss;
+
+		return PlayState.Continue;
 	}
 }
