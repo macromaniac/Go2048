@@ -12,10 +12,24 @@ public class Tile {
 	}
 	public Tile(Point2D pos, char tileChar) {
 		this.pos = pos;
-		this.tileType = Util.charToTileType(tileChar);
+		this.tileType = tileChar.ToTileType();
 	}
 
-	public string getChar() {
-		return Util.tileTypeToChar(tileType).ToString();
+	public string GetChar() {
+		return tileType.ToChar().ToString();
+	}
+
+	public bool IsKing() {
+		if (tileType == TileType.BlackKing || tileType == TileType.WhiteKing)
+			return true;
+		return false;
+	}
+
+	public PlayerColor GetColor() {
+		return tileType.ToPlayerColor();
+	}
+
+	public TileType GetTileType() {
+		return tileType;
 	}
 }

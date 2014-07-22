@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Direction { up, down, left, right };
-public enum TileType { white, whiteKing, black, blackKing, empty, wall };
+public enum Direction { Up, Down, Left, Right, None };
+public enum TileType { White, WhiteKing, Black, BlackKing, Empty, Wall };
+public enum PlayerColor { White, Black, None };
 
 public class Point2D {
 	public int x, y;
@@ -13,56 +14,113 @@ public class Point2D {
 	public static Point2D operator +(Point2D p1, Point2D p2) {
 		return new Point2D(p1.x + p2.x, p1.y + p2.y);
 	}
+	public static Point2D operator -(Point2D p1, Point2D p2) {
+		return new Point2D(p1.x - p2.x, p1.y - p2.y);
+	}
+	public static Point2D operator *(Point2D p1, int i1) {
+		return new Point2D(p1.x * i1, p1.y * i1);
+	}
+	public static Point2D operator *(int i1, Point2D p1) {
+		return new Point2D(p1.x * i1, p1.y * i1);
+	}
+	public override string ToString() {
+		return "(" + x + "," + y + ")";
+	}
+
+	public bool isEqualTo(Point2D p) {
+		return (x == p.x && y == p.y);
+	}
 
 }
-public class Util {
-	public static Point2D singleStep(Direction direction) {
-		if (direction == Direction.up)
+public static class Conversions {
+	public static Point2D ToPoint2D(this Direction direction) {
+		if (direction == Direction.Up)
 			return new Point2D(0, 1);
-		if (direction == Direction.down)
+		if (direction == Direction.Down)
 			return new Point2D(0, -1);
-		if (direction == Direction.left)
+		if (direction == Direction.Left)
 			return new Point2D(-1, 0);
-		if (direction == Direction.right)
-			return new Point2D(0, 1);
+		if (direction == Direction.Right)
+			return new Point2D(1, 0);
 		return new Point2D(0, 0);
 	}
-	public static TileType charToTileType(char input) {
-		if (input == 'B')
-			return TileType.blackKing;
-		if (input == 'W')
-			return TileType.whiteKing;
-		if (input == 'w')
-			return TileType.white;
-		if (input == 'b')
-			return TileType.black;
-		if (input == '.')
-			return TileType.empty;
-		return TileType.wall;
+	public static PlayerColor ToPlayerColor(this int playerNumber) {
+		if (playerNumber == 0)
+			return PlayerColor.White;
+		if (playerNumber == 1)
+			return PlayerColor.Black;
+		return PlayerColor.None;
 	}
-	public static char tileTypeToChar(TileType tileType) {
-		if (tileType == TileType.blackKing)
+
+	public static TileType ToTileType(this char input) {
+		if (input == 'B')
+			return TileType.BlackKing;
+		if (input == 'W')
+			return TileType.WhiteKing;
+		if (input == 'w')
+			return TileType.White;
+		if (input == 'b')
+			return TileType.Black;
+		if (input == '.')
+			return TileType.Empty;
+		int a = 0;
+		return TileType.Wall;
+	}
+	public static char ToChar(this TileType tileType) {
+		if (tileType == TileType.BlackKing)
 			return 'B';
-		if (tileType == TileType.whiteKing)
+		if (tileType == TileType.WhiteKing)
 			return 'W';
-		if (tileType == TileType.white)
+		if (tileType == TileType.White)
 			return 'w';
-		if (tileType == TileType.black)
+		if (tileType == TileType.Black)
 			return 'b';
-		if (tileType == TileType.empty)
+		if (tileType == TileType.Empty)
 			return '.';
 		return 'x';
 	}
+	public static PlayerColor ToPlayerColor(this TileType tileType) {
+		if (tileType == TileType.Black || tileType == TileType.BlackKing)
+			return PlayerColor.Black;
+		if (tileType == TileType.White || tileType == TileType.WhiteKing)
+			return PlayerColor.White;
+		return PlayerColor.None;
+	}
+
+}
+public static class Util {
+	public static bool isMovableType(this TileType tileType) {
+		if (tileType.ToPlayerColor() != PlayerColor.None)
+			return true;
+		return false;
+	}
+	public static bool isKing(this TileType tileType) {
+		if (tileType == TileType.BlackKing || tileType == TileType.WhiteKing)
+			return true;
+		return false;
+	}
+//	public static string startingMap =
+//@"" +
+//"xxxxxxxx\n" +
+//"xxxxxxxx\n" +
+//"xxw....x\n" +
+//"xx.W...x\n" +
+//"xx.....x\n" +
+//"xx...B.x\n" +
+//"xx....bx\n" +
+//"xxxxxxxx\n" +
+//"xxxxxxxx";
+
+
 	public static string startingMap =
 @"" +
-"xxxxxxxx\n" +
-"x..w...x\n" +
-"x..w...x\n" +
-"x..W...x\n" +
-"x...B..x\n" +
-"x......x\n" +
-"x......x\n" +
-"xxxxxxxx\n" +
-"xxxxxxxx";
-
+"xxxxxxxxx\n" +
+"xb.....wx\n" +
+"x.......x\n" +
+"x..W....x\n" +
+"x.......x\n" +
+"x....B..x\n" +
+"x.......x\n" +
+"xb.....wx\n" +
+"xxxxxxxxx";
 }

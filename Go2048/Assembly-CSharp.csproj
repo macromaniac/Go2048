@@ -46,14 +46,15 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ActivePlayerText.cs" />
      <Compile Include="Assets\Board.cs" />
+     <Compile Include="Assets\BoardExploder.cs" />
      <Compile Include="Assets\BoardMover.cs" />
      <Compile Include="Assets\Game.cs" />
-     <Compile Include="Assets\InputManager.cs" />
+     <Compile Include="Assets\InputMan.cs" />
      <Compile Include="Assets\PersistantData.cs" />
      <Compile Include="Assets\Tile.cs" />
      <Compile Include="Assets\Util.cs" />
-     <Compile Include="Assets\WinChecker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
