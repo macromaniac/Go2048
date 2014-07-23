@@ -35,6 +35,10 @@ public class Game {
 
 	}
 
+	public Direction GetAICommand(int playerNumber) {
+		return Direction.None;
+	}
+
 	//a move is only available if it effects the board
 	public List<Direction> findAvailableMoves(int playerNumber) {
 		List<Direction> AvailableMoves = new List<Direction>();
