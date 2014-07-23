@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 public class Game {
@@ -18,6 +19,7 @@ public class Game {
 	}
 
 
+	public PlayState lastRealPlayState = PlayState.Continue;
 	public PlayState SendCommand(int playerNumber, Direction direction) {
 
 		boardSpawner.saveKingPositions();
@@ -29,15 +31,16 @@ public class Game {
 
 		boardSpawner.trySpawningOnKingPositions();
 
-		return boardExploder.ExplodeTrappedGroups(playerNumber.ToPlayerColor());
+		lastRealPlayState = boardExploder.ExplodeTrappedGroups(playerNumber.ToPlayerColor());
+		return lastRealPlayState;
 
 		//boardLoader.pushBoard(board, direction);
 
 	}
-
-	public Direction GetAICommand(int playerNumber) {
-		return Direction.None;
+	public Board GetBoard() {
+		return board;
 	}
+
 
 	//a move is only available if it effects the board
 	public List<Direction> findAvailableMoves(int playerNumber) {
@@ -55,14 +58,32 @@ public class Game {
 
 	private bool doesMoveEffectBoard(int playerNumber, Direction direction) {
 
-		boardLoader.pushBoard(board, Direction.None);
-		bool doesEffectBoard = (SendCommand(playerNumber, direction) != PlayState.Impossible);
-		board.loadFromBoard(boardLoader.popBoard());
+		pushMove(playerNumber, direction);
+		bool doesEffectBoard = (boardLoader.Back().playState != PlayState.Impossible);
+		popMove();
 
 		return doesEffectBoard;
 	}
 
 	public string getStateAsString() {
 		return board.getStateAsPrettyString();
+	}
+
+	public PlayState pushMove(int playerNumber, Direction direction) {
+		//Debug.Log(board.getStateAsPrettyString());
+		PlayState ps = SendCommand(playerNumber, direction);
+		//Debug.Log(board.getStateAsPrettyString());
+		boardLoader.PushBoardState(board, direction, ps );
+		//Debug.Log(ps.ToString());
+		return ps;
+	}
+	public void popMove() {
+		boardLoader.PopBoardState();
+		board.loadFromString(boardLoader.Back().board.getStateAsString());
+		lastRealPlayState = boardLoader.Back().playState;
+		//Debug.Log(lastRealPlayState.ToString());
+	}
+	public void clearMemory() {
+		boardLoader.clearMemory();
 	}
 }

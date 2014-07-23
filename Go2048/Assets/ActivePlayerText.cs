@@ -2,17 +2,18 @@
 using System.Collections;
 
 public class ActivePlayerText : MonoBehaviour {
-	public InputMan inputMan;
 	TextMesh textMesh;
 
+	private GameInterface gameInterface;
 	void Start() {
 		this.textMesh = gameObject.GetComponent<TextMesh>();
+		this.gameInterface = GameInterfaceContainerScript.getInterface();
 	}
 
 	void Update() {
-		string activePlayer = (inputMan.CurrentPlayer == 0) ? "White" : "Black";
-		if (inputMan.gameOver) {
-			textMesh.text = activePlayer + inputMan.gameOverState.ToString();
+		string activePlayer = (gameInterface.GetCurrentPlayer() == 0) ? "White" : "Black";
+		if (gameInterface.isGameOver()) {
+			textMesh.text = activePlayer + gameInterface.GetPlayState().ToString();
 			return;
 		}
 		string activePlayerText = activePlayer + "'s Turn! ";

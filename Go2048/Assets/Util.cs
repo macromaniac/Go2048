@@ -48,6 +48,13 @@ public static class Conversions {
 			return new Point2D(1, 0);
 		return new Point2D(0, 0);
 	}
+	public static PlayerColor Flip(this PlayerColor playerColor) {
+		if (playerColor == PlayerColor.White)
+			return PlayerColor.Black;
+		if (playerColor == PlayerColor.Black)
+			return PlayerColor.White;
+		return PlayerColor.None;
+	}
 	public static PlayerColor ToPlayerColor(this int playerNumber) {
 		if (playerNumber == 0)
 			return PlayerColor.White;
@@ -56,6 +63,9 @@ public static class Conversions {
 		return PlayerColor.None;
 	}
 
+	public static int ToInt(this PlayerColor playerColor) {
+		return (int)playerColor;
+	}
 	public static TileType ToTileType(this char input) {
 		if (input == 'B')
 			return TileType.BlackKing;
@@ -92,15 +102,17 @@ public static class Conversions {
 
 }
 public static class Util {
-	public static T DeepClone<T>(T obj) {
-		using (var ms = new MemoryStream()) {
-			var formatter = new BinaryFormatter();
-			formatter.Serialize(ms, obj);
-			ms.Position = 0;
-
-			return (T)formatter.Deserialize(ms);
-		}
-	}
+   // Deep clone
+    public static T DeepClone<T>(this T a)
+    {
+        using (MemoryStream stream = new MemoryStream())
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, a);
+            stream.Position = 0;
+            return (T) formatter.Deserialize(stream);
+        }
+    }
 	public static bool isMovableType(this TileType tileType) {
 		if (tileType.ToPlayerColor() != PlayerColor.None)
 			return true;
@@ -111,28 +123,28 @@ public static class Util {
 			return true;
 		return false;
 	}
-//	public static string startingMap =
-//@"" +
-//"xxxxxxxx\n" +
-//"xxxxxxxx\n" +
-//"xxw....x\n" +
-//"xx.W...x\n" +
-//"xx.....x\n" +
-//"xx...B.x\n" +
-//"xx....bx\n" +
-//"xxxxxxxx\n" +
-//"xxxxxxxx";
-
-
 	public static string startingMap =
 @"" +
-"xxxxxxxxx\n" +
-"xb.....wx\n" +
-"x.......x\n" +
-"x..W....x\n" +
-"x.......x\n" +
-"x....B..x\n" +
-"x.......x\n" +
-"xb.....wx\n" +
-"xxxxxxxxx";
+"xxxxxxxx\n" +
+"xxxxxxxx\n" +
+"xxw....x\n" +
+"xx.W...x\n" +
+"xx.....x\n" +
+"xx...B.x\n" +
+"xxw....x\n" +
+"xxxxxxxx\n" +
+"xxxxxxxx";
+
+
+//	public static string startingMap =
+//@"" +
+//"xxxxxxxxx\n" +
+//"xb.....wx\n" +
+//"x.......x\n" +
+//"x..W....x\n" +
+//"x.......x\n" +
+//"x....B..x\n" +
+//"x.......x\n" +
+//"xb.....wx\n" +
+//"xxxxxxxxx";
 }

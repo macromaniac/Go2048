@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\AI.cs" />
+     <Compile Include="Assets\AIScript.cs" />
      <Compile Include="Assets\ActivePlayerText.cs" />
      <Compile Include="Assets\Board.cs" />
      <Compile Include="Assets\BoardExploder.cs" />
@@ -54,6 +55,8 @@
      <Compile Include="Assets\BoardMover.cs" />
      <Compile Include="Assets\BoardSpawner.cs" />
      <Compile Include="Assets\Game.cs" />
+     <Compile Include="Assets\GameInterface.cs" />
+     <Compile Include="Assets\GameInterfaceContainerScript.cs" />
      <Compile Include="Assets\InputMan.cs" />
      <Compile Include="Assets\PersistantData.cs" />
      <Compile Include="Assets\Tile.cs" />

@@ -22,6 +22,10 @@ public class BoardMover {
 
 		//Need to find start based off of the king that is most inclusive
 		Tile king = board.GetKing(playerNumber.ToPlayerColor());
+
+		if (king == null)
+			Debug.Log(playerNumber + " " +board.getStateAsString());
+
 		if (direction == Direction.Right || direction == Direction.Left) {
 
 			if (direction == Direction.Right)

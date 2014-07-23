@@ -3,5 +3,89 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AI {
+	Game aiGame;
+	PlayerColor aiPlayerColor;
+	BoardLoader boardLoader;
+	public AI(Board board, PlayerColor playerColor) {
+		aiGame = new Game(board.getStateAsString());
+		aiPlayerColor = playerColor;
+		boardLoader = new BoardLoader(aiGame.GetBoard());
+	}
+	public Direction FindBestMove() {
+		List<Direction> directions = aiGame.findAvailableMoves(aiPlayerColor.ToInt());
+		if (directions.Count == 0)
+			return Direction.None;
+		return GetMoveFromMinimax();
+	}
 
+	//finds the board value relative to aiPlayerColor (backwards for some reason)
+	private float findBoardValue(Game game, PlayerColor playerColor, bool areMovesExausted) {
+
+		if (game.lastRealPlayState == PlayState.Win)
+			if (aiPlayerColor != playerColor)
+				return float.MaxValue;
+			else
+				return float.MinValue;
+
+		//running out of moves is a loss
+		if (game.lastRealPlayState == PlayState.Loss || areMovesExausted)
+			if (aiPlayerColor != playerColor)
+				return float.MinValue;
+			else
+				return float.MaxValue;
+
+		if (game.lastRealPlayState == PlayState.Draw)
+			return 0f;
+
+		float tileDiff = game.GetBoard().NumTilesOfColor(aiPlayerColor) - game.GetBoard().NumTilesOfColor(aiPlayerColor.Flip());
+		return tileDiff;
+	}
+
+	Direction bestMove;
+	int maxDepth = 7;
+	private Direction GetMoveFromMinimax() {
+		bestMove = Direction.None;
+		float moveVal = minimax(aiGame, maxDepth, float.MinValue, float.MaxValue, true, aiPlayerColor);
+		Debug.Log(moveVal);
+		return bestMove;
+	}
+
+	private float minimax(Game aiGame, int depth, float alpha, float beta, bool isMaximizingPlayer, PlayerColor playerColor) {
+		if (depth==0 || aiGame.lastRealPlayState == PlayState.Draw
+				|| aiGame.lastRealPlayState == PlayState.Loss
+				|| aiGame.lastRealPlayState == PlayState.Win)
+			return findBoardValue(aiGame, playerColor, false);
+
+		List<Direction> availableMoves = aiGame.findAvailableMoves(playerColor.ToInt());
+		if (availableMoves.Count == 0 )
+			return findBoardValue(aiGame, playerColor, availableMoves.Count == 0);
+
+		if (isMaximizingPlayer == true) {
+			foreach (Direction direction in availableMoves) {
+				aiGame.pushMove(playerColor.ToInt(), direction);
+				float branchval = minimax(aiGame, depth - 1, alpha, beta, false, playerColor.Flip());
+				if (depth == maxDepth && branchval > alpha)
+					bestMove = direction;
+				alpha = Math.Max(alpha, branchval);
+				aiGame.popMove();
+				if (beta <= alpha) //beta prune
+					break;
+			}
+			return alpha;
+		}
+		else {
+			foreach (Direction direction in availableMoves) {
+				aiGame.pushMove(playerColor.ToInt(), direction);
+				beta = Math.Min(beta, minimax(aiGame, depth - 1, alpha, beta, true, playerColor.Flip()));
+				aiGame.popMove();
+				if (beta <= alpha) //alpha prune
+					break;
+			}
+			return beta;
+		}
+		throw new Exception("minimax tree did not exit properly");
+	}
 }
+
+
+

@@ -10,8 +10,8 @@ public class Board {
 	public Board(string rawBoard) {
 		loadFromString(rawBoard);
 	}
-	public void loadFromBoard(Board board){
-		this.board = board.GetBoard();
+	public void loadFromBoard(Board boardToCopy){
+		this.board = boardToCopy.GetBoard();
 	}
 
 	public void loadFromString(string loadFrom){
@@ -119,5 +119,14 @@ public class Board {
 
 	public void explodeTile(Tile tile) {
 		SetTile(tile.pos, new Tile(tile.pos, TileType.Empty));
+	}
+
+	public float NumTilesOfColor(PlayerColor color) {
+		float counter=0;
+		foreach (List<Tile> row in board)
+			foreach (Tile tile in row)
+				if (tile.GetColor() == color)
+					counter += 1f;
+		return counter;
 	}
 }
