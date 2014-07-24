@@ -33,9 +33,9 @@ public class BoardLoader {
 	public BoardState Back() {
 		return boardStates[boardStates.Count - 1];
 	}
-	public BoardLoader(Board board) {
+	public BoardLoader(Board board, PlayState startingPlayState = PlayState.Continue) {
 		boardStates = new List<BoardState>();
-		PushBoardState(board, Direction.None, PlayState.Continue);
+		PushBoardState(board, Direction.None, startingPlayState);
 	}
 	public void ClearMemory() {
 		boardStates = new List<BoardState>();

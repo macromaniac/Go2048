@@ -10,16 +10,17 @@ public class Game {
 	private BoardSpawner boardSpawner;
 	private BoardLoader boardLoader;
 
-	public Game(string rawBoard) {
+	public PlayState lastRealPlayState;
+	public Game(string rawBoard, PlayState playState = PlayState.Continue) {
+		lastRealPlayState = playState;
 		board = new Board(rawBoard);
 		boardMover = new BoardMover(board);
 		boardExploder = new BoardExploder(board);
 		boardSpawner = new BoardSpawner(board);
-		boardLoader = new BoardLoader(board);
+		boardLoader = new BoardLoader(board,playState);
 	}
 
 
-	public PlayState lastRealPlayState = PlayState.Continue;
 	public PlayState SendCommand(int playerNumber, Direction direction) {
 
 		boardSpawner.SaveKingPositions();
@@ -73,7 +74,7 @@ public class Game {
 		//Debug.Log(board.getStateAsPrettyString());
 		PlayState ps = SendCommand(playerNumber, direction);
 		//Debug.Log(board.getStateAsPrettyString());
-		boardLoader.PushBoardState(board, direction, ps );
+		boardLoader.PushBoardState(board, direction, ps);
 		//Debug.Log(ps.ToString());
 		return ps;
 	}

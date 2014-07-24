@@ -5,15 +5,18 @@ using UnityEngine;
 public class AI {
 	Game aiGame;
 	PlayerColor aiPlayerColor;
-	BoardLoader boardLoader;
-	public AI(Board board, PlayerColor playerColor) {
-		aiGame = new Game(board.GetStateAsString());
+	public AI(Board board, PlayState playState, PlayerColor playerColor) {
+		aiGame = new Game(board.GetStateAsString(), playState);
 		aiPlayerColor = playerColor;
-		boardLoader = new BoardLoader(aiGame.GetBoard());
 	}
 	public Direction FindBestMove() {
+		//REALLY SLOPPY: AIGAME LAST PLAY STATE GETTING RESET FROM FIND ABAILABLEMOVES
+		if (aiGame.lastRealPlayState == PlayState.Draw
+				|| aiGame.lastRealPlayState == PlayState.Loss
+				|| aiGame.lastRealPlayState == PlayState.Win)
+			return Direction.None;
 		List<Direction> directions = aiGame.FindAvailableMoves(aiPlayerColor.ToInt());
-		if (directions.Count == 0)
+		if (directions.Count == 0 )
 			return Direction.None;
 		return GetMoveFromMinimax();
 	}
@@ -42,29 +45,34 @@ public class AI {
 	}
 
 	Direction bestMove;
-	int maxDepth = 7;
+	int maxDepth = 5;
 	private Direction GetMoveFromMinimax() {
 		bestMove = Direction.None;
+		Debug.Log(aiGame.lastRealPlayState.ToString());
+		Debug.Log(aiGame.GetBoard().GetStateAsPrettyString());
 		float moveVal = Minimax(aiGame, maxDepth, float.MinValue, float.MaxValue, true, aiPlayerColor);
 		Debug.Log(moveVal);
 		return bestMove;
 	}
 
 	private float Minimax(Game aiGame, int depth, float alpha, float beta, bool isMaximizingPlayer, PlayerColor playerColor) {
-		if (depth==0 || aiGame.lastRealPlayState == PlayState.Draw
+		if (depth == 0 || aiGame.lastRealPlayState == PlayState.Draw
 				|| aiGame.lastRealPlayState == PlayState.Loss
-				|| aiGame.lastRealPlayState == PlayState.Win)
+				|| aiGame.lastRealPlayState == PlayState.Win) {
+			if (depth == maxDepth)
+				Debug.Log("GameEnding at Highest State!");
 			return FindBoardValue(aiGame, playerColor, false);
+		}
 
 		List<Direction> availableMoves = aiGame.FindAvailableMoves(playerColor.ToInt());
-		if (availableMoves.Count == 0 )
+		if (availableMoves.Count == 0)
 			return FindBoardValue(aiGame, playerColor, availableMoves.Count == 0);
 
 		if (isMaximizingPlayer == true) {
 			foreach (Direction direction in availableMoves) {
 				aiGame.PushMove(playerColor.ToInt(), direction);
 				float branchval = Minimax(aiGame, depth - 1, alpha, beta, false, playerColor.Flip());
-				if (depth == maxDepth && branchval > alpha)
+				if (depth == maxDepth && branchval > alpha || depth == maxDepth && bestMove == Direction.None)
 					bestMove = direction;
 				alpha = Math.Max(alpha, branchval);
 				aiGame.PopMove();
