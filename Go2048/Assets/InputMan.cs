@@ -8,7 +8,7 @@ public class InputMan : MonoBehaviour {
 
 	GameInterface gameInterface;
 	void Start() {
-		gameInterface = GameInterfaceContainerScript.getInterface();
+		gameInterface = GameInterfaceContainerScript.GetInterface();
 		WorldText.text = gameInterface.GetStateAsString();
 	}
 
@@ -16,7 +16,7 @@ public class InputMan : MonoBehaviour {
 	void Update() {
 		Direction directionFromInput = GetDirectionFromInput();
 		if (directionFromInput != Direction.None) {
-			gameInterface.tryToMove(playerNumber, directionFromInput);
+			gameInterface.TryToMove(playerNumber, directionFromInput);
 			WorldText.text = gameInterface.GetStateAsString();
 		}
 	}

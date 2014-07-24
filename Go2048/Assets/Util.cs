@@ -31,7 +31,7 @@ public class Point2D {
 		return "(" + x + "," + y + ")";
 	}
 
-	public bool isEqualTo(Point2D p) {
+	public bool IsEqualTo(Point2D p) {
 		return (x == p.x && y == p.y);
 	}
 
@@ -113,12 +113,12 @@ public static class Util {
             return (T) formatter.Deserialize(stream);
         }
     }
-	public static bool isMovableType(this TileType tileType) {
+	public static bool IsMovableType(this TileType tileType) {
 		if (tileType.ToPlayerColor() != PlayerColor.None)
 			return true;
 		return false;
 	}
-	public static bool isKing(this TileType tileType) {
+	public static bool IsKing(this TileType tileType) {
 		if (tileType == TileType.BlackKing || tileType == TileType.WhiteKing)
 			return true;
 		return false;

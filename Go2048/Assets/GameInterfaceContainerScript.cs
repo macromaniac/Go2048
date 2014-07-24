@@ -5,17 +5,17 @@ public class GameInterfaceContainerScript : MonoBehaviour {
 	public GameInterface gameInterface;
 	void Start(){
 	}
-	public void init(){
+	public void Init(){
 		gameInterface = new GameInterface();
 	}
 
-	public static GameInterface getInterface() {
+	public static GameInterface GetInterface() {
 		GameInterface toReturn = GameObject.Find("GameInterfaceContainer").
 				GetComponent<GameInterfaceContainerScript>().gameInterface;
 
 		if (toReturn == null) {
-			GameObject.Find("GameInterfaceContainer").GetComponent<GameInterfaceContainerScript>().init();
-			return getInterface();
+			GameObject.Find("GameInterfaceContainer").GetComponent<GameInterfaceContainerScript>().Init();
+			return GetInterface();
 		}
 		return toReturn;
 	}

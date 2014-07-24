@@ -33,14 +33,11 @@ public class BoardLoader {
 	public BoardState Back() {
 		return boardStates[boardStates.Count - 1];
 	}
-	public int numBoards() {
-		return boardStates.Count;
-	}
 	public BoardLoader(Board board) {
 		boardStates = new List<BoardState>();
 		PushBoardState(board, Direction.None, PlayState.Continue);
 	}
-	public void clearMemory() {
+	public void ClearMemory() {
 		boardStates = new List<BoardState>();
 	}
 }

@@ -7,16 +7,16 @@ public class BoardExploder {
 	private Board board;
 	private List<List<bool>> checkedBoardTiles;
 
-	private void clearCheckedBoardTiles() {
+	private void ClearCheckedBoardTiles() {
 		for (int i = 0; i < checkedBoardTiles.Count; ++i)
 			for (int j = 0; j < checkedBoardTiles[0].Count; ++j)
 				checkedBoardTiles[i][j] = false;
 
 	}
-	private bool checkTile(Point2D point) {
+	private bool CheckTile(Point2D point) {
 		return checkedBoardTiles[point.y][point.x];
 	}
-	private void setTile(Point2D point, bool val) {
+	private void SetTile(Point2D point, bool val) {
 		checkedBoardTiles[point.y][point.x] = val;
 	}
 
@@ -31,35 +31,35 @@ public class BoardExploder {
 	}
 
 
-	private void addTileToList(ref bool isTouchingFreeSpace, ref List<Tile> list, Point2D point, PlayerColor color, Direction dir) {
-		if (board.isPointWithinBounds(point + dir.ToPoint2D())) {
+	private void AddTileToList(ref bool isTouchingFreeSpace, ref List<Tile> list, Point2D point, PlayerColor color, Direction dir) {
+		if (board.IsPointWithinBounds(point + dir.ToPoint2D())) {
 			if (board.GetTile(point + dir.ToPoint2D()).GetColor() == color
-			   && checkTile(point + dir.ToPoint2D()) == false) {
+			   && CheckTile(point + dir.ToPoint2D()) == false) {
 				list.Add(board.GetTile(point + dir.ToPoint2D()));
-				setTile(point + dir.ToPoint2D(), true);
+				SetTile(point + dir.ToPoint2D(), true);
 			}
 			if (board.GetTile(point + dir.ToPoint2D()).GetTileType() == TileType.Empty)
 				isTouchingFreeSpace = true;
 		}
 
 	}
-	private void addAdjacentTilesToList(ref bool isTouchingFreeSpace,
+	private void AddAdjacentTilesToList(ref bool isTouchingFreeSpace,
 		ref List<Tile> list, Point2D point, PlayerColor color) {
-		addTileToList(ref isTouchingFreeSpace, ref list, point, color, Direction.Down);
-		addTileToList(ref isTouchingFreeSpace, ref list, point, color, Direction.Up);
-		addTileToList(ref isTouchingFreeSpace, ref list, point, color, Direction.Left);
-		addTileToList(ref isTouchingFreeSpace, ref list, point, color, Direction.Right);
+		AddTileToList(ref isTouchingFreeSpace, ref list, point, color, Direction.Down);
+		AddTileToList(ref isTouchingFreeSpace, ref list, point, color, Direction.Up);
+		AddTileToList(ref isTouchingFreeSpace, ref list, point, color, Direction.Left);
+		AddTileToList(ref isTouchingFreeSpace, ref list, point, color, Direction.Right);
 	}
 
-	private void checkBoardTile(Point2D point) {
+	private void CheckBoardTile(Point2D point) {
 		//If it's already been checked then we're good to go
-		if (checkTile(point) == true)
+		if (CheckTile(point) == true)
 			return;
 
 		PlayerColor color = board.GetTile(point).GetColor();
 		//If the tile has no color it's not going to explode, so boom, checked
 		if (color == PlayerColor.None) {
-			setTile(point, true);
+			SetTile(point, true);
 			return;
 		}
 
@@ -68,16 +68,16 @@ public class BoardExploder {
 
 		bool oneIsTouchingFreeSpace = false;
 		uncheckedTilesToJudge.Add(board.GetTile(point));
-		setTile(point, true);
+		SetTile(point, true);
 		while (uncheckedTilesToJudge.Count > 0) {
 			Tile toCheck = uncheckedTilesToJudge[uncheckedTilesToJudge.Count - 1];
 			Point2D pos = toCheck.pos;
-			addAdjacentTilesToList(ref oneIsTouchingFreeSpace, ref uncheckedTilesToJudge,
+			AddAdjacentTilesToList(ref oneIsTouchingFreeSpace, ref uncheckedTilesToJudge,
 				pos, color);
 
 			uncheckedTilesToJudge.Remove(toCheck);
 			totalGroup.Add(toCheck);
-			setTile(toCheck.pos, true);
+			SetTile(toCheck.pos, true);
 		}
 
 		//If the group of tiles isn't touching an empty tile it's trapped and it needs to go boom
@@ -87,7 +87,7 @@ public class BoardExploder {
 					blackKingKilled = true;
 				if (tile.GetTileType() == TileType.WhiteKing)
 					whiteKingKilled = true;
-				board.explodeTile(tile);
+				board.ExplodeTile(tile);
 			}
 		}
 	}
@@ -96,11 +96,11 @@ public class BoardExploder {
 	public PlayState ExplodeTrappedGroups(PlayerColor playerWhoMovedTheBoard) {
 		whiteKingKilled = false;
 		blackKingKilled = false;
-		clearCheckedBoardTiles();
+		ClearCheckedBoardTiles();
 		//A trapped group is group of blocks of a particular color that are not connected to an empty square
 		for (int x = 0; x < board.NumVerticalLines; ++x) {
 			for (int y = 0; y < board.NumHorizontalLines; ++y)
-				checkBoardTile(new Point2D(x, y));
+				CheckBoardTile(new Point2D(x, y));
 		}
 
 		if (whiteKingKilled && blackKingKilled)

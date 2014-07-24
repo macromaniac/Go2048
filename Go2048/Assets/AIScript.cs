@@ -9,7 +9,7 @@ public class AIScript : MonoBehaviour {
 
 	GameInterface gameInterface;
 	void Start() {
-		gameInterface = GameInterfaceContainerScript.getInterface();
+		gameInterface = GameInterfaceContainerScript.GetInterface();
 	}
 
 	bool isMakingMove = false;
@@ -29,7 +29,7 @@ public class AIScript : MonoBehaviour {
 		yield return new WaitForSeconds(AITurnTime);
 		AI ai = new AI(gameInterface.GetBoard(), playerNumber.ToPlayerColor());
 		Direction dirToMove = ai.FindBestMove();
-		gameInterface.tryToMove(playerNumber, dirToMove);
+		gameInterface.TryToMove(playerNumber, dirToMove);
 		Debug.Log("AI Says: Done making move. " + dirToMove.ToString());
 		WorldText.text = gameInterface.GetStateAsString();
 		isMakingMove = false;

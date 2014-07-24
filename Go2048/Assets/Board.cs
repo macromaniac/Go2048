@@ -8,13 +8,13 @@ public class Board {
 	public List<List<Tile>> GetBoard() { return board; }
 
 	public Board(string rawBoard) {
-		loadFromString(rawBoard);
+		LoadFromString(rawBoard);
 	}
-	public void loadFromBoard(Board boardToCopy){
+	public void LoadFromBoard(Board boardToCopy){
 		this.board = boardToCopy.GetBoard();
 	}
 
-	public void loadFromString(string loadFrom){
+	public void LoadFromString(string loadFrom){
 		string[] mapLines = loadFrom.Split('\n');
 		board = new List<List<Tile>>();
 
@@ -67,7 +67,7 @@ public class Board {
 		return 0;
 	}
 
-	public bool isPointWithinBounds(Point2D point){
+	public bool IsPointWithinBounds(Point2D point){
 		if (point.y > NumHorizontalLines - 1 || point.y < 0)
 			return false;
 		if (point.x > NumVerticalLines - 1 || point.x < 0)
@@ -91,7 +91,7 @@ public class Board {
 		SetTile(tileToMoveTo.pos, new Tile(tileToMoveTo.pos, originalTile.GetTileType()));
 		SetTile(originalTile.pos, new Tile(originalTile.pos, TileType.Empty));
 	}
-	public string getStateAsPrettyString() {
+	public string GetStateAsPrettyString() {
 		string stateAsString = "";
 		for (int y = 0; y < board.Count; ++y) {
 			for (int x = 0; x < board[y].Count; ++x) {
@@ -104,7 +104,7 @@ public class Board {
 		}
 		return stateAsString;
 	}
-	public string getStateAsString() {
+	public string GetStateAsString() {
 		string stateAsString = "";
 		for (int y = 0; y < board.Count; ++y) {
 			for (int x = 0; x < board[y].Count; ++x) {
@@ -117,7 +117,7 @@ public class Board {
 		return stateAsString;
 	}
 
-	public void explodeTile(Tile tile) {
+	public void ExplodeTile(Tile tile) {
 		SetTile(tile.pos, new Tile(tile.pos, TileType.Empty));
 	}
 

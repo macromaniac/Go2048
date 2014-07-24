@@ -22,14 +22,14 @@ public class Game {
 	public PlayState lastRealPlayState = PlayState.Continue;
 	public PlayState SendCommand(int playerNumber, Direction direction) {
 
-		boardSpawner.saveKingPositions();
+		boardSpawner.SaveKingPositions();
 
 		bool doesEffectBoard = boardMover.Move(playerNumber, direction);
 
 		if (doesEffectBoard == false)
 			return PlayState.Impossible;
 
-		boardSpawner.trySpawningOnKingPositions();
+		boardSpawner.TrySpawningOnKingPositions();
 
 		lastRealPlayState = boardExploder.ExplodeTrappedGroups(playerNumber.ToPlayerColor());
 		return lastRealPlayState;
@@ -43,33 +43,33 @@ public class Game {
 
 
 	//a move is only available if it effects the board
-	public List<Direction> findAvailableMoves(int playerNumber) {
+	public List<Direction> FindAvailableMoves(int playerNumber) {
 		List<Direction> AvailableMoves = new List<Direction>();
-		if (doesMoveEffectBoard(playerNumber, Direction.Up))
+		if (DoesMoveEffectBoard(playerNumber, Direction.Up))
 			AvailableMoves.Add(Direction.Up);
-		if (doesMoveEffectBoard(playerNumber, Direction.Down))
+		if (DoesMoveEffectBoard(playerNumber, Direction.Down))
 			AvailableMoves.Add(Direction.Down);
-		if (doesMoveEffectBoard(playerNumber, Direction.Left))
+		if (DoesMoveEffectBoard(playerNumber, Direction.Left))
 			AvailableMoves.Add(Direction.Left);
-		if (doesMoveEffectBoard(playerNumber, Direction.Right))
+		if (DoesMoveEffectBoard(playerNumber, Direction.Right))
 			AvailableMoves.Add(Direction.Right);
 		return AvailableMoves;
 	}
 
-	private bool doesMoveEffectBoard(int playerNumber, Direction direction) {
+	private bool DoesMoveEffectBoard(int playerNumber, Direction direction) {
 
-		pushMove(playerNumber, direction);
+		PushMove(playerNumber, direction);
 		bool doesEffectBoard = (boardLoader.Back().playState != PlayState.Impossible);
-		popMove();
+		PopMove();
 
 		return doesEffectBoard;
 	}
 
-	public string getStateAsString() {
-		return board.getStateAsPrettyString();
+	public string GetStateAsString() {
+		return board.GetStateAsPrettyString();
 	}
 
-	public PlayState pushMove(int playerNumber, Direction direction) {
+	public PlayState PushMove(int playerNumber, Direction direction) {
 		//Debug.Log(board.getStateAsPrettyString());
 		PlayState ps = SendCommand(playerNumber, direction);
 		//Debug.Log(board.getStateAsPrettyString());
@@ -77,13 +77,13 @@ public class Game {
 		//Debug.Log(ps.ToString());
 		return ps;
 	}
-	public void popMove() {
+	public void PopMove() {
 		boardLoader.PopBoardState();
-		board.loadFromString(boardLoader.Back().board.getStateAsString());
+		board.LoadFromString(boardLoader.Back().board.GetStateAsString());
 		lastRealPlayState = boardLoader.Back().playState;
 		//Debug.Log(lastRealPlayState.ToString());
 	}
-	public void clearMemory() {
-		boardLoader.clearMemory();
+	public void ClearMemory() {
+		boardLoader.ClearMemory();
 	}
 }

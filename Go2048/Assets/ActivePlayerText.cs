@@ -7,12 +7,12 @@ public class ActivePlayerText : MonoBehaviour {
 	private GameInterface gameInterface;
 	void Start() {
 		this.textMesh = gameObject.GetComponent<TextMesh>();
-		this.gameInterface = GameInterfaceContainerScript.getInterface();
+		this.gameInterface = GameInterfaceContainerScript.GetInterface();
 	}
 
 	void Update() {
 		string activePlayer = (gameInterface.GetCurrentPlayer() == 0) ? "White" : "Black";
-		if (gameInterface.isGameOver()) {
+		if (gameInterface.IsGameOver()) {
 			textMesh.text = activePlayer + gameInterface.GetPlayState().ToString();
 			return;
 		}

@@ -15,21 +15,21 @@ public class GameInterface {
 		return game.GetBoard();
 	}
 
-	public bool tryToMove(int playerNumber, Direction direction) {
-		if (isGameOver() || playerNumber != currentPlayerNumber || !GetDirections(playerNumber).Contains(direction))
+	public bool TryToMove(int playerNumber, Direction direction) {
+		if (IsGameOver() || playerNumber != currentPlayerNumber || !GetDirections(playerNumber).Contains(direction))
 			return false;
-		game.clearMemory();
-		currentPlayState = game.pushMove(playerNumber, direction);
+		game.ClearMemory();
+		currentPlayState = game.PushMove(playerNumber, direction);
 		SwitchActivePlayer();
 		return true;
 	}
-	public bool isGameOver() {
+	public bool IsGameOver() {
 		return (currentPlayState == PlayState.Draw || currentPlayState == PlayState.Win ||
 				currentPlayState == PlayState.Loss);
 	}
 
 	public string GetStateAsString() {
-		return game.getStateAsString();
+		return game.GetStateAsString();
 	}
 	public PlayState GetPlayState() {
 		return currentPlayState;
@@ -44,6 +44,6 @@ public class GameInterface {
 		return currentPlayerNumber;
 	}
 	public List<Direction> GetDirections(int playerNumber) {
-		return game.findAvailableMoves(playerNumber);
+		return game.FindAvailableMoves(playerNumber);
 	}
 }

@@ -24,7 +24,7 @@ public class BoardMover {
 		Tile king = board.GetKing(playerNumber.ToPlayerColor());
 
 		if (king == null)
-			Debug.Log(playerNumber + " " +board.getStateAsString());
+			Debug.Log(playerNumber + " " +board.GetStateAsString());
 
 		if (direction == Direction.Right || direction == Direction.Left) {
 
@@ -64,12 +64,12 @@ public class BoardMover {
 		//The recursion actually starts at end and lowers the tail until it is origin by subtracting steps.
 		//This is to slide objects down without other objects getting in the way
 
-		if (origin.isEqualTo(end)) //Recursion end condition when origin == end
+		if (origin.IsEqualTo(end)) //Recursion end condition when origin == end
 			return;
 
 		Tile endTile = board.GetTile(end);
 
-		if (endTile.GetTileType().isMovableType() == false) {
+		if (endTile.GetTileType().IsMovableType() == false) {
 			MoveLine(origin, end - step, step, wall);
 			return;
 		}
@@ -77,7 +77,7 @@ public class BoardMover {
 		//move the tile down as far as possible
 		int howFarCanIMove = 0;
 		while (board.GetTile(end + step * (howFarCanIMove + 1)).GetTileType() == TileType.Empty &&
-			(wall == null || !wall.isEqualTo(end + step * (howFarCanIMove + 1))))
+			(wall == null || !wall.IsEqualTo(end + step * (howFarCanIMove + 1))))
 			howFarCanIMove++;
 
 		if (howFarCanIMove != 0) {
@@ -85,7 +85,7 @@ public class BoardMover {
 			didMove = true;
 		}
 
-		if (endTile.GetTileType().isKing()) {
+		if (endTile.GetTileType().IsKing()) {
 			MoveLine(origin, end - step, step, endTile.pos);
 		}
 		else {
