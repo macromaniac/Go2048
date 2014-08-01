@@ -10,7 +10,6 @@ public class AI {
 		aiPlayerColor = playerColor;
 	}
 	public Direction FindBestMove() {
-		//REALLY SLOPPY: AIGAME LAST PLAY STATE GETTING RESET FROM FIND ABAILABLEMOVES
 		if (aiGame.lastRealPlayState == PlayState.Draw
 				|| aiGame.lastRealPlayState == PlayState.Loss
 				|| aiGame.lastRealPlayState == PlayState.Win)
@@ -48,8 +47,6 @@ public class AI {
 	int maxDepth = 5;
 	private Direction GetMoveFromMinimax() {
 		bestMove = Direction.None;
-		Debug.Log(aiGame.lastRealPlayState.ToString());
-		Debug.Log(aiGame.GetBoard().GetStateAsPrettyString());
 		float moveVal = Minimax(aiGame, maxDepth, float.MinValue, float.MaxValue, true, aiPlayerColor);
 		Debug.Log(moveVal);
 		return bestMove;
@@ -94,6 +91,3 @@ public class AI {
 		throw new Exception("minimax tree did not exit properly");
 	}
 }
-
-
-

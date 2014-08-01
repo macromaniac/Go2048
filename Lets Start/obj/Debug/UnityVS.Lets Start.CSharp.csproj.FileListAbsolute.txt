@@ -1,0 +1,9 @@
+C:\git\Lets Start\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\git\Lets Start\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\git\Lets Start\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\git\Lets Start\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\git\Lets Start\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\git\Lets Start\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\git\Lets Start\obj\Debug\UnityVS.Lets Start.CSharp.csprojResolveAssemblyReference.cache
+C:\git\Lets Start\obj\Debug\Assembly-CSharp.dll
+C:\git\Lets Start\obj\Debug\Assembly-CSharp.pdb

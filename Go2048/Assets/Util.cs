@@ -127,11 +127,11 @@ public static class Util {
 @"" +
 "xxxxxxxx\n" +
 "xxxxxxxx\n" +
-"xxw....x\n" +
+"xx.....x\n" +
 "xx.W...x\n" +
 "xx.....x\n" +
 "xx...B.x\n" +
-"xxw....x\n" +
+"xx.....x\n" +
 "xxxxxxxx\n" +
 "xxxxxxxx";
 
@@ -147,4 +147,11 @@ public static class Util {
 //"x.......x\n" +
 //"xb.....wx\n" +
 //"xxxxxxxxx";
+//	public static string startingMap =
+//@"" +
+//"xxxxxxxxxxxxxxx\n" +
+//"x.W...........x\n" +
+//"x..........B..x\n" +
+//"x.............x\n" +
+//"xxxxxxxxxxxxxxx";
 }
