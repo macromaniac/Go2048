@@ -1,0 +1,9 @@
+C:\git\Go2048\MultiplyBy2\obj\Debug\UnityVS.MultiplyBy2.CSharp.csprojResolveAssemblyReference.cache
+C:\git\Go2048\MultiplyBy2\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\git\Go2048\MultiplyBy2\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\git\Go2048\MultiplyBy2\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\git\Go2048\MultiplyBy2\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\git\Go2048\MultiplyBy2\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\git\Go2048\MultiplyBy2\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\git\Go2048\MultiplyBy2\obj\Debug\Assembly-CSharp.dll
+C:\git\Go2048\MultiplyBy2\obj\Debug\Assembly-CSharp.pdb
